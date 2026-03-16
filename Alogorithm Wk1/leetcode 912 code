@@ -1,0 +1,56 @@
+class Solution {
+public:
+    // 把兩個排好序的小陣列，合併成一個大的排好序陣列
+    void merge(vector<int>& nums, int left, int mid, int right) {
+        // 建立temp
+        vector<int> temp; 
+        
+        // 設定兩個指標
+        int i = left;    // 左半邊的起點
+        int j = mid + 1; // 右半邊的起點
+
+        // 比大小
+        while (i <= mid && j <= right) {
+            if (nums[i] <= nums[j]) {
+                temp.push_back(nums[i]); // 左邊小放左邊
+                i++;
+            } else {
+                temp.push_back(nums[j]); // 右邊小放右邊
+                j++;
+            }
+        }
+
+        // 如果左邊還有剩下的，直接全部搬進去
+        while (i <= mid) temp.push_back(nums[i++]);
+        
+        // 如果右邊還有剩下的，直接全部搬進去
+        while (j <= right) temp.push_back(nums[j++]);
+
+        // 把暫存區裡排好順序的數字，通通copy原本的 nums 陣列裡
+        for (int k = 0; k < temp.size(); k++) {
+            nums[left + k] = temp[k];
+        }
+    }
+
+    // 用遞迴不斷把陣列對半切
+    void mergeSort(vector<int>& nums, int left, int right) {
+        // 如果左邊不小於右邊，代表只剩下一個數字
+        if (left >= right) return;
+
+        // 找出中間點對半切
+        int mid = left + (right - left) / 2;
+
+        // 遞迴 左半邊去切分並排序
+        mergeSort(nums, left, mid);
+        // 遞迴 右半邊去切分並排序
+        mergeSort(nums, mid + 1, right);
+
+        // 合併
+        merge(nums, left, mid, right);
+    }
+    //final
+    vector<int> sortArray(vector<int>& nums) {
+        mergeSort(nums, 0, nums.size() - 1);
+        return nums;
+    }
+};
