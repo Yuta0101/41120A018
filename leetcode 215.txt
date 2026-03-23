@@ -1,0 +1,28 @@
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        // 建立一個最小堆積 (Min-Heap)
+        // C++ 的 priority_queue 預設是最大堆，所以要加上 greater<int> 變成最小堆
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+
+        for (int num : nums) {
+            // 先把數字丟進堆積裡
+            minHeap.push(num);
+
+            // 如果堆積的大小超過了 k，就把最小的那個（頂部）彈出
+            // 這樣可以保證堆積裡永遠只留下目前看過「最大的那 k 個數」
+            if (minHeap.size() > k) {
+                minHeap.pop();
+            }
+        }
+
+        // 繞完一圈後，堆積頂部就是這 k 個大數裡面「最小」的那一個
+        // 也就是整體的第 k 大數
+        return minHeap.top();
+    }
+};
