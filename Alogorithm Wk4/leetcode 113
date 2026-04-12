@@ -1,1 +1,37 @@
+class Solution {
+public:
+    vector<vector<int>> result; // 最後所有成功路徑都放這裡
+    vector<int> path;           // 目前正在走的路徑
 
+    void dfs(TreeNode* node, int targetSum) {
+        // 如果節點是空的 直接回去
+        if (node == nullptr) {
+            return;
+        }
+
+        // 把目前節點加入路徑
+        path.push_back(node->val);
+
+        // 如果目前節點是葉節點
+        // 且 targetSum 剛好等於目前節點值
+        // 代表這條路徑總和符合
+        if (node->left == nullptr && node->right == nullptr && targetSum == node->val) {
+            result.push_back(path);
+        }
+
+        // 繼續往左子樹找
+        dfs(node->left, targetSum - node->val);
+
+        // 繼續往右子樹找
+        dfs(node->right, targetSum - node->val);
+
+        // 找完後要把目前節點移掉
+        // 因為要回到上一層，去找別條路
+        path.pop_back();
+    }
+
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        dfs(root, targetSum);
+        return result;
+    }
+};
