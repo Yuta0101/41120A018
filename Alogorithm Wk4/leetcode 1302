@@ -1,0 +1,33 @@
+/**
+BFS 層序遍歷
+ */
+class Solution {
+public:
+    int deepestLeavesSum(TreeNode* root) {
+        queue<TreeNode*> q; //first in first out
+        q.push(root);
+
+        int sum = 0;
+                           //判斷queue是否為空值
+        while (!q.empty()) {
+            int size = q.size();
+            sum = 0;  // 每進入新的一層 就重新計算這一層的總和
+
+            for (int i = 0; i < size; i++) //count until last node
+             {
+                TreeNode* node = q.front();
+                q.pop();
+
+                sum += node->val;
+
+                if (node->left != nullptr) {
+                    q.push(node->left);
+                }
+
+                if (node->right != nullptr) {
+                    q.push(node->right);
+                }
+            }
+        }     return sum;
+    }
+};
