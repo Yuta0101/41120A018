@@ -1,9 +1,9 @@
+//判斷能不能分兩組 BFS 染色 / 二分圖
 class Solution {
 public:
     bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
         vector<vector<int>> graph(n + 1);
 
-        // 建立無向圖
         for (auto& d : dislikes) {
             int a = d[0];
             int b = d[1];
@@ -14,7 +14,6 @@ public:
 
         // 0 = 還沒染色
         // 1 = 第一組
-        // -1 = 第二組
         vector<int> color(n + 1, 0);
 
         for (int i = 1; i <= n; i++) {
