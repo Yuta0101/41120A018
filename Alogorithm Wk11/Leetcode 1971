@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        vector<vector<int>> graph(n);
+
+        // 建立無向圖
+        for (auto& edge : edges) {
+            int a = edge[0];
+            int b = edge[1];
+
+            graph[a].push_back(b);
+            graph[b].push_back(a);
+        }
+
+        vector<bool> visited(n, false);
+        queue<int> q;
+
+        q.push(source);
+        visited[source] = true;
+
+        while (!q.empty()) {
+            int cur = q.front();
+            q.pop();
+
+            if (cur == destination) {
+                return true;
+            }
+
+            for (int next : graph[cur]) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    q.push(next);
+                }
+            }
+        }
+
+        return false;
+    }
+};
